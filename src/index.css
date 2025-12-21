@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* WICHTIG: Das hier verhindert das doppelte Scrollen */
+html {
+  scroll-behavior: smooth; /* Sorgt für das weiche Scrollen zum Anker */
+}
+
+body {
+  @apply font-sans;
+  background-color: #050505;
+  overflow-x: hidden; /* Verhindert seitliches Wackeln */
+  width: 100%;
+  position: relative;
+}
+
+/* Falls du Scrollbars stylen willst (optional, macht sie dunkler) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
