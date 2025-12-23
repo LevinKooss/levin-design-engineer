@@ -18,7 +18,7 @@ import LumiLoFiWish from '../assets/lumilofiwish.avif';
 import LumiPair from '../assets/LumiPair.png';
 import LumiPhone from '../assets/LumiPhone.png';
 import LumiWish from '../assets/LumiWish.png';
-import LumiMood from '../assets/LumiMood.png';
+import LumiMood from '../assets/lumimood.jpg';
 
 
 // Icons
