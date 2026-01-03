@@ -5,7 +5,8 @@ import OpenAIIcon from '../../assets/icons/openai.svg';
 
 export const CaptuneCard = () => {
   return (
-    <div className="relative w-full lg:w-[456px] h-[500px] group cursor-pointer">
+    // FIX: w-full h-full für das Grid
+    <div className="relative w-full h-full min-h-[500px] group cursor-pointer">
 
       {/* Surface & Border Container */}
       <div className="
@@ -19,11 +20,13 @@ export const CaptuneCard = () => {
         group-hover:shadow-[0_20px_80px_-20px_rgba(139,92,246,0.15)]
       ">
 
-        {/* 1. Background Blur Circle (Responsive Centering) */}
+        {/* 1. Background Blur Circle */}
         <div className="
           absolute 
-          left-1/2 top-[100px] -translate-x-1/2 /* Mobile: Mittig */
-          lg:left-[78px] lg:top-[37px] lg:translate-x-0 /* Desktop: Original */
+          /* FIX: Wir lassen es auf Desktop auch zentriert (left-1/2) statt fest (left-[78px]) */
+          left-1/2 top-[100px] -translate-x-1/2
+          lg:top-[37px] 
+          
           w-[300px] h-[300px] 
           bg-[#8B5CF6]/15 
           blur-[250px] rounded-full 
@@ -65,10 +68,11 @@ export const CaptuneCard = () => {
           {/* --- A. TOP SECTION (Circles & Input) --- */}
           <div className="
             absolute 
-            /* Mobile: Zentriert, etwas höher */
-            left-1/2 -translate-x-1/2 top-[70px]
-            /* Desktop: Original Position */
-            lg:left-[118px] lg:translate-x-0 lg:top-[80px]
+            /* FIX: Zentriert für Mobile UND Desktop. 
+               Feste Pixel (left-[118px]) würden bei schmalen Cards abschneiden. */
+            left-1/2 -translate-x-1/2 
+            top-[70px] lg:top-[80px]
+            
             flex flex-col items-center
           ">
             
@@ -112,7 +116,7 @@ export const CaptuneCard = () => {
 
           </div>
 
-          {/* --- B. SPARKLE ICON */}
+          {/* --- B. SPARKLE ICON --- */}
           <div className="absolute left-0 right-0 top-[210px] lg:top-[217px] flex justify-center">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-[0_0_8px_rgba(139,92,246,0.5)]">
                 <path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" fill="url(#sparkle-gradient)"/>
@@ -129,8 +133,9 @@ export const CaptuneCard = () => {
           {/* --- C. CHAT BUBBLES GROUP --- */}
           <div className="
             absolute
-            left-1/2 -translate-x-1/2 top-[260px]
-            lg:left-[110px] lg:translate-x-0 lg:top-[268px]
+            /* FIX: Auch hier zentriert bleiben! */
+            left-1/2 -translate-x-1/2 
+            top-[260px] lg:top-[268px]
           ">
             {/* 1. Main Bubble */}
             <div className="
@@ -148,7 +153,7 @@ export const CaptuneCard = () => {
 
             {/* 2. Loading Bar 1 */}
             <div className="
-              absolute left-[8px] top-[70px] /* Desktop war top-335 (relativ zu Card) -> Differenz ca +67px */
+              absolute left-[8px] top-[70px]
               w-[220px] h-[40px]
               bg-[#262626] rounded-xl border border-white/5 z-30
             "></div>
@@ -167,7 +172,6 @@ export const CaptuneCard = () => {
         <div className="
           absolute left-0 bottom-0 
           w-full z-30
-          /* Mobile Frame etwas höher */
           h-[200px] lg:h-[150px]
           bg-gradient-to-b from-[#0A0A0A]/0 to-[#0A0A0A]
         ">

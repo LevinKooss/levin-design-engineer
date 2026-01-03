@@ -5,7 +5,7 @@ import fitHubPhone from '../../assets/FitHubPhone.png';
 
 export const FitHubCard = () => {
   return (
-    <Link to='/fithub' className="relative w-full lg:w-[410px] h-[450px] group cursor-pointer">
+    <Link to='/fithub' className="block relative w-full h-[450px] group cursor-pointer">
       <div className="
         absolute inset-0 bg-[#0A0A0A] border border-white/10 rounded-[32px] overflow-hidden
         transition-all duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)]
@@ -14,8 +14,9 @@ export const FitHubCard = () => {
         {/* BG Circle */}
         <div className="
           absolute 
-          left-1/2 -translate-x-1/2 top-[-20px]
-          lg:left-[56px] lg:translate-x-0 lg:-top-[48px]
+          /* FIX: Immer zentriert (left-1/2) statt fest (left-[56px]) */
+          left-1/2 -translate-x-1/2 
+          top-[-20px] lg:-top-[48px]
           w-[300px] h-[300px] 
           bg-[#06B6D4]/20 blur-[200px] rounded-full pointer-events-none z-0
         "></div>
@@ -26,8 +27,11 @@ export const FitHubCard = () => {
           alt="FitHub Abstract" 
           className="
             absolute 
-            left-0 top-[50px] w-full blur-[4px] z-10 object-cover
-            lg:-left-[-45px] lg:top-[-20px] lg:w-[499px] lg:h-[302px] lg:left-auto
+            left-0 top-[50px] 
+            /* FIX: Responsive Breite */
+            w-full h-full lg:h-auto lg:top-[-20px]
+            
+            blur-[4px] z-10 object-cover
             transition-transform duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:scale-105
           " 
         />
@@ -44,8 +48,12 @@ export const FitHubCard = () => {
           alt="FitHub App Mockup" 
           className="
             absolute 
-            left-1/2 -translate-x-1/2 top-[60px] w-[190px]
-            lg:left-[85px] lg:translate-x-0 lg:top-[60px] lg:w-[230px] lg:h-[450px]
+            /* FIX: Zentriert bleiben! */
+            left-1/2 -translate-x-1/2 
+            top-[60px] w-[190px]
+            
+            /* Desktop Größe anpassen, aber Position mittig lassen */
+            lg:top-[60px] lg:w-[230px] lg:h-[450px]
             
             object-contain max-w-none z-20 pointer-events-none 
             drop-shadow-[-20px_10px_50px_rgba(0,0,0,0.6)] 
@@ -60,9 +68,12 @@ export const FitHubCard = () => {
           bg-[linear-gradient(to_bottom,rgba(10,10,10,0)_0%,rgba(10,10,10,0.8)_60%,#0A0A0A_100%)]
         ">
           <div className="
-            absolute left-[26px] bottom-[30px] lg:top-[169px] lg:bottom-auto
+            absolute 
+            left-[26px] right-[26px] /* Rechtsabstand sichern */
+            bottom-[30px] lg:top-[169px] lg:bottom-auto
             flex flex-col gap-6 items-start
-            lg:flex-row lg:items-end lg:gap-[81px]
+            /* FIX: justify-between statt gap */
+            lg:flex-row lg:items-end lg:justify-between lg:gap-0
           ">
             <div className="flex flex-col gap-1 items-start">
               <h3 className="font-sans font-bold text-[20px] leading-[24px] text-[#FFFFFF]">Fithub</h3>

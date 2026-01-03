@@ -8,7 +8,8 @@ import ViteIcon from '../../assets/icons/vite.svg';
 
 export const PulseLogCard = () => {
   return (
-    <div className="relative w-full lg:w-[800px] h-[500px] group cursor-pointer transition-transform duration-200 transform-gpu group-hover:scale-[1.01]">
+    // FIX 1: Container ist flexibel (w-full / h-full)
+    <div className="relative w-full h-full min-h-[500px] group cursor-pointer transition-transform duration-200 transform-gpu group-hover:scale-[1.01]">
 
       {/* Surface & Border Container */}
       <div className="
@@ -22,11 +23,11 @@ export const PulseLogCard = () => {
         group-hover:shadow-[0_20px_80px_-20px_rgba(59,130,246,0.15)]
       ">
       
-        {/* 1. Background Glow */}
+        {/* Background Glow (angepasst auf rechts) */}
         <div className="
           absolute 
-          left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 /* Mobile: Zentriert */
-          lg:left-[150px] lg:top-[50px] lg:translate-x-0 lg:translate-y-0 /* Desktop: Original */
+          left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
+          lg:left-auto lg:translate-x-0 lg:right-[100px] lg:top-[50px]
           w-[300px] h-[300px] lg:w-[400px] lg:h-[400px] 
           bg-[#3B82F6]/10 
           blur-[150px] lg:blur-[250px] rounded-full 
@@ -35,7 +36,7 @@ export const PulseLogCard = () => {
           group-hover:opacity-100 opacity-60
         "></div>
 
-        {/* 2. Live App Badge */}
+        {/* Live App Badge */}
         <div className="
           absolute left-6 top-6 z-30 
           flex items-center gap-[6px] 
@@ -56,16 +57,21 @@ export const PulseLogCard = () => {
           </span>
         </div>
 
-        {/* --- IMAGES --- */}
+        {/* --- IMAGES (HIER IST DER FIX) --- */}
         
         {/* Desktop Image */}
         <div className="
             absolute z-10 
             /* Mobile Styles */
             inset-0 w-full h-full opacity-30 blur-xl pointer-events-none
-            /* Desktop Styles Reset */
+            
+            /* Desktop Styles */
             lg:opacity-100 lg:blur-0 lg:pointer-events-auto lg:inset-auto
-            lg:-left-[87px] lg:top-[73px] lg:w-[550px] lg:h-[325px] 
+            lg:right-[250px] lg:top-[85px] 
+            
+            /* Responsive Breite: 55% der Karte, aber max 550px */
+            lg:w-[55%] lg:max-w-[550px] lg:h-[325px] 
+            
             lg:overflow-hidden lg:rounded-lg lg:shadow-2xl
         ">
             <img 
@@ -73,12 +79,13 @@ export const PulseLogCard = () => {
             alt="PulseLog Desktop" 
             className="
               w-full h-full 
-              object-cover lg:object-left-top 
+              object-cover object-left-top 
               transition-transform duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)]
             "
           />
         </div>
 
+        {/* Phone Image */}
         <img
           src={pulselogPhone}
           alt="PulseLog Mobile"
@@ -88,16 +95,18 @@ export const PulseLogCard = () => {
             transition-transform duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)]
             group-hover:scale-105
 
-            /* Mobile: Deutlich größer (war 180px) */
+            /* Mobile: Zentriert */
             w-[230px] top-[60px] left-1/2 -translate-x-1/2
-            
-            /* Tablet (md): Noch etwas größer */
             md:w-[280px] md:top-[40px]
 
-            /* Desktop (lg): Original Specs */
-            lg:w-[300px] lg:h-[750px] 
-            lg:left-[270px] lg:top-[-100px] lg:translate-x-0
-            lg:object-contain lg:max-w-none
+            /* FIX: Verankert von RECHTS. */
+            /* Egal wie breit die Karte ist, das Handy bleibt 40px vom rechten Rand */
+            lg:left-auto lg:translate-x-0
+            lg:right-[40px] 
+            lg:top-[60px] 
+            
+            /* Responsive Breite: 35% der Karte */
+            lg:w-[35%] lg:max-w-[300px] lg:h-auto
           "
         />
 
@@ -105,16 +114,13 @@ export const PulseLogCard = () => {
         <div className="
           absolute left-0 bottom-0 
           w-full z-30
-          /* Mobile: Frame ist höher für mehr Text-Platz */
           h-[220px] lg:h-[180px]
           bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/90 to-transparent
           flex items-end pb-8 px-6 lg:pb-10 lg:px-8
         ">
           <div className="
             flex w-full 
-            /* Mobile: Spalte (Text oben, Icons unten) */
             flex-col gap-6 items-start
-            /* Desktop: Reihe (Text links, Icons rechts) */
             lg:flex-row lg:justify-between lg:items-end lg:gap-0
           ">
             
@@ -122,7 +128,7 @@ export const PulseLogCard = () => {
             <div className="flex flex-col gap-2">
               <h3 className="
                 font-sans font-bold text-white tracking-tight
-                text-2xl lg:text-3xl /* Schriftgröße angepasst */
+                text-2xl lg:text-3xl
               ">
                 PulseLog
               </h3>

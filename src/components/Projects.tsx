@@ -6,53 +6,53 @@ import { FitHubCard } from './cards/FitHubCard';
 
 export const Projects = () => {
   return (
-    <section className="
-      relative z-10 w-full
-      flex justify-center 
-      px-4         
-      pt-10       
-      lg:pt-64   
-      pb-32 
-    ">
+    // FIX 1: "w-screen" zwingt die Section auf Bildschirmbreite
+    <section className="relative z-10 w-screen flex flex-col items-center px-4 pt-10 lg:pt-64 pb-32 overflow-hidden">
       
-      <div id="projects" className="flex flex-col gap-6 w-full max-w-[1280px]">
+      {/* FIX 2: "w-[90vw]" -> Das ist das Brecheisen. 
+          Statt "w-full" sagen wir: "Nimm dir 90% vom Fenster, egal was passiert." 
+          Damit KANN er nicht mehr kollabieren. 
+      */}
+      <div id="projects" className="w-[90vw] max-w-[1280px] grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        <div className="w-full flex justify-center mb-2">
+        {/* Header */}
+        <div className="lg:col-span-3 w-full flex justify-center mb-2">
            <h2 className="text-[#A1A1AA]/60 font-mono text-xs tracking-[0.2em] uppercase">
              Selected Work
            </h2>
         </div>
 
-        {/* ROW 1: DEV PROJECTS (NOW CLICKABLE) */}
-        <div className="relative flex flex-col md:flex-row lg:flex-row gap-6">
-          
-          {/* Link to PulseLog Code */}
-          <a 
-            href="https://pulselog-gray.vercel.app" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="flex-1 block"
-          >
-            <PulseLogCard />
-          </a>
+        {/* --- ROW 1 --- */}
+        <a 
+          href="https://pulselog-gray.vercel.app" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="block w-full lg:col-span-2 h-[500px]"
+        >
+          <PulseLogCard />
+        </a>
 
-          {/* Link to Captune Code */}
-          <a 
-            href="https://captune.vercel.app"
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="flex-1 block"
-          >
-            <CaptuneCard />
-          </a>
+        <a 
+          href="https://captune.vercel.app"
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="block w-full lg:col-span-1 h-[500px]"
+        >
+          <CaptuneCard />
+        </a>
 
+        {/* --- ROW 2 --- */}
+        {/* Hier geben wir zur Sicherheit auch eine feste Höhe mit, damit nichts springt */}
+        <div className="w-full h-[450px]">
+           <LumiCard />
         </div>
-        
-        {/* ROW 2: CASE STUDIES (INTERNAL) */}
-        <div className="relative flex flex-col lg:flex-row gap-6 justify-between">
-          <LumiCard />
-          <LexiCard />
-          <FitHubCard />
+
+        <div className="w-full h-[450px]">
+           <LexiCard />
+        </div>
+
+        <div className="w-full h-[450px]">
+           <FitHubCard />
         </div>
 
       </div>
