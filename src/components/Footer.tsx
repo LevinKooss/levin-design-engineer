@@ -39,7 +39,7 @@ export const Footer = () => {
   const { pathname } = useLocation();
 
   const handleCopy = () => {
-    navigator.clipboard.writeText('levinjpn@gmail.com');
+    navigator.clipboard.writeText('levinkooss.work@gmail.com');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -64,7 +64,7 @@ export const Footer = () => {
                 onClick={handleCopy}
                 className="group flex min-h-11 items-center gap-3 text-[#A1A1AA] hover:text-white transition-colors text-lg"
               >
-                <span>levinjpn@gmail.com</span>
+                <span>levinkooss.work@gmail.com</span>
                 
                 <div className="relative">
                   {copied ? (

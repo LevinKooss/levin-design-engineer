@@ -153,7 +153,7 @@ export const About = () => {
 
           {/* --- TILE 6: CONNECT --- */}
           <a 
-            href="mailto:levinjpn@gmail.com" 
+            href="mailto:levinkooss.work@gmail.com"
             className="
               group bg-[#0A0A0A] border border-white/10 rounded-3xl p-8 
               flex flex-col justify-between 

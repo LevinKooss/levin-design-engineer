@@ -99,7 +99,7 @@ export function Navbar() {
           </div>
 
           <a 
-              href="mailto:levinjpn@gmail.com" 
+              href="mailto:levinkooss.work@gmail.com"
               className={`
                 ${isHome ? 'cta-halo' : ''}
                 inline-flex min-h-11 items-center justify-self-end text-white text-sm font-semibold transition-all duration-400 rounded-[8px] whitespace-nowrap
@@ -180,7 +180,7 @@ export function Navbar() {
           <div className="w-[1px] h-8 bg-white/10"></div>
 
           <a 
-            href="mailto:levinjpn@gmail.com" 
+            href="mailto:levinkooss.work@gmail.com"
             aria-label="Contact Levin by email"
             className="
               flex items-center justify-center w-12 h-12 rounded-full 
