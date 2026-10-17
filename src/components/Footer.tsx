@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
+import { ResumeSelector } from './ResumeSelector';
 
 // Reveal Component
 const RevealOnScroll = ({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) => {
@@ -34,6 +36,7 @@ const RevealOnScroll = ({ children, delay = 0 }: { children: React.ReactNode, de
 
 export const Footer = () => {
   const [copied, setCopied] = useState(false);
+  const { pathname } = useLocation();
 
   const handleCopy = () => {
     navigator.clipboard.writeText('levinjpn@gmail.com');
@@ -59,7 +62,7 @@ export const Footer = () => {
               {/* LEFT: Email Button */}
               <button 
                 onClick={handleCopy}
-                className="group flex items-center gap-3 text-[#A1A1AA] hover:text-white transition-colors text-lg"
+                className="group flex min-h-11 items-center gap-3 text-[#A1A1AA] hover:text-white transition-colors text-lg"
               >
                 <span>levinjpn@gmail.com</span>
                 
@@ -81,7 +84,7 @@ export const Footer = () => {
               <div className="flex flex-col gap-4 items-start md:items-end">
                  <FooterLink href="https://github.com/LevinKooss" label="GitHub" />
                  <FooterLink href="https://www.linkedin.com/in/levin-kooss/" label="LinkedIn" />
-                 <FooterLink href="/resume.pdf" label="Resume" />
+                 <ResumeSelector key={pathname} pathname={pathname} />
               </div>
 
             </div>
@@ -89,10 +92,10 @@ export const Footer = () => {
 
           {/* --- BOTTOM BAR --- */}
           <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-mono text-[#525252]">
-            <span>© 2025 Levin Kooss</span>
+            <span>© 2026 Levin Kooss</span>
             <div className="flex gap-4">
-               <span className="hover:text-[#A1A1AA] cursor-pointer transition-colors">Legal Notice</span>
-               <span className="hover:text-[#A1A1AA] cursor-pointer transition-colors">Privacy</span>
+               <span>Legal Notice</span>
+               <span>Privacy</span>
             </div>
             <span className="text-right">Built with React, Vite</span>
           </div>
@@ -108,7 +111,7 @@ const FooterLink = ({ href, label }: { href: string; label: string }) => (
     href={href} 
     target="_blank" 
     rel="noreferrer"
-    className="group flex items-center gap-2 text-[#A1A1AA] hover:text-white transition-colors text-base"
+    className="group flex min-h-11 items-center gap-2 text-[#A1A1AA] hover:text-white transition-colors text-base"
   >
     {label}
     <svg 

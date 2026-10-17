@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Navbar } from '../components/Navbar';
+import { ConceptContext } from '../components/design/ConceptContext';
+import { FlowDiagram } from '../components/design/FlowDiagram';
+import { PageTitle } from '../components/design/PageTitle';
 
 import HeroDesktop from '../assets/fithubhero.avif'
 import HeroPhone from '../assets/fithubherophone.avif'
@@ -19,8 +21,8 @@ import DetailLofi from '../assets/detaillofi.avif'
 import WorkoutLofi from '../assets/workoutlofi.avif'
 import NutriLofi from '../assets/nutrilofi.avif'
 import FinalCoachVideo from '../assets/detailhifi.mp4'
-import WorkoutHiFi from '../assets/workouthifi.png'
-import NutriHiFi from '../assets/nutrihifi.png'
+import WorkoutHiFi from '../assets/workouthifi-720.avif'
+import NutriHiFi from '../assets/nutrihifi-720.avif'
 
 
 const HeroDesktopImg = HeroDesktop; 
@@ -50,6 +52,7 @@ const RevealOnScroll = ({ children, delay = 0 }: { children: React.ReactNode, de
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const node = ref.current;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -59,14 +62,14 @@ const RevealOnScroll = ({ children, delay = 0 }: { children: React.ReactNode, de
       },
       { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
     );
-    if (ref.current) observer.observe(ref.current);
-    return () => { if (ref.current) observer.unobserve(ref.current); };
+    if (node) observer.observe(node);
+    return () => { if (node) observer.unobserve(node); };
   }, []);
 
   return (
     <div
       ref={ref}
-      className={`transition-all duration-1000 ease-out transform ${
+      className={`design-reveal transition-all duration-1000 ease-out transform ${
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
       }`}
       style={{ transitionDelay: `${delay}ms` }}
@@ -83,15 +86,16 @@ export const FitHub = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white selection:bg-emerald-500/30 font-sans overflow-x-hidden">
-      <Navbar />
+    <div className="design-case-study min-h-screen bg-[#050505] text-white selection:bg-emerald-500/30 font-sans overflow-x-hidden">
 
-      <main className="pt-32 pb-12 px-4 md:px-8 max-w-[1000px] mx-auto">
+
+      <main className="pt-36 pb-12 px-4 md:px-8 max-w-[1000px] mx-auto">
+        <PageTitle title="FitHub — UX/UI Concept" />
         
         {/* --- 1. HERO SECTION --- */}
         <RevealOnScroll>
           <div className="mb-32"> 
-            <Link to="/#projects" className="inline-flex items-center gap-2 text-[#525252] hover:text-white transition-colors mb-8 group">
+            <Link to="/design#projects" className="inline-flex items-center gap-2 text-[#A1A1AA] hover:text-white transition-colors mb-8 group">
               <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
               <span className="font-mono text-sm uppercase tracking-wider">Back to projects</span>
             </Link>
@@ -101,9 +105,10 @@ export const FitHub = () => {
             </h1>
             <p className="text-xl md:text-2xl text-[#A1A1AA] max-w-2xl leading-relaxed mb-8">
               Designing a unified workspace for modern fitness coaching. <br />
-              Centralizing clients, workouts, and meals into one clean system.
+              A UX/UI concept bringing clients, workouts, and meals into one workspace.
             </p>
             
+            <ConceptContext />
             {/* Tags */}
             <div className="flex flex-wrap gap-3 mb-12">
               <span className="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-xs font-mono text-[#A1A1AA]">UX / UI Design</span>
@@ -115,21 +120,21 @@ export const FitHub = () => {
             <div className="relative w-full">
                
                {/* 1. DESKTOP BACKGROUND (Container) */}
-               <div className="w-full h-[500px] md:h-[700px] bg-[#111] rounded-3xl overflow-hidden border border-white/5 shadow-2xl relative z-0">
+               <div className="w-full aspect-[2880/2048] bg-[#111] rounded-3xl overflow-hidden border border-white/5 shadow-2xl relative z-0">
 
-                  <img 
+                  <img width={2880} height={2048} loading="eager" decoding="async"
                     src={HeroDesktopImg} 
                     alt="FitHub Desktop Dashboard" 
-                    className="w-full h-full object-cover object-top opacity-90" 
+                    className="w-full h-full object-contain opacity-90"
                   />
 
                   <div className="absolute inset-0 bg-gradient-to-t from-[#050505]/60 via-transparent to-transparent pointer-events-none"></div>
                </div>
 
                {/* 2. PHONE OVERLAY (Breakout) */}
-               <div className="absolute -bottom-12 -right-4 md:-bottom-16 md:-right-12 w-[40%] md:w-[35%] z-10 drop-shadow-2xl">
+               <div className="absolute -bottom-8 right-0 md:-bottom-16 md:right-0 w-[40%] md:w-[35%] z-10 drop-shadow-2xl">
 
-                  <img 
+                  <img width={525} height={1024} loading="eager" decoding="async"
                     src={HeroMobileImg} 
                     alt="FitHub Mobile App" 
                     className="w-full h-auto rotate-[-2deg]" 
@@ -145,19 +150,19 @@ export const FitHub = () => {
         <RevealOnScroll delay={200}>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 border-y border-white/10 py-8 mb-24 font-mono text-xs md:text-sm">
              <div>
-               <div className="text-[#525252] mb-2 uppercase tracking-wider flex items-center gap-2"><Users size={14}/> Role</div>
-               <span className="text-white">UX Designer - Researcher</span>
+               <div className="text-[#A1A1AA] mb-2 uppercase tracking-wider flex items-center gap-2"><Users size={14}/> Role</div>
+               <span className="text-white">UX/UI Designer</span>
              </div>
              <div>
-               <div className="text-[#525252] mb-2 uppercase tracking-wider flex items-center gap-2"><Activity size={14}/> Duration</div>
+               <div className="text-[#A1A1AA] mb-2 uppercase tracking-wider flex items-center gap-2"><Activity size={14}/> Duration</div>
                <span className="text-white">4 Weeks</span>
              </div>
              <div>
-               <div className="text-[#525252] mb-2 uppercase tracking-wider flex items-center gap-2"><Cpu size={14}/> AI Tools</div>
-               <span className="text-white">ChatGPT, Leonardo, Perplexity</span>
+               <div className="text-[#A1A1AA] mb-2 uppercase tracking-wider flex items-center gap-2"><Cpu size={14}/> Design Tool</div>
+               <span className="text-white">Figma</span>
              </div>
              <div>
-               <div className="text-[#525252] mb-2 uppercase tracking-wider flex items-center gap-2"><Layers size={14}/> Focus</div>
+               <div className="text-[#A1A1AA] mb-2 uppercase tracking-wider flex items-center gap-2"><Layers size={14}/> Focus</div>
                <span className="text-white">Client Structure & Flow</span>
              </div>
           </div>
@@ -171,7 +176,7 @@ export const FitHub = () => {
                 <span className="text-emerald-500 font-mono text-xs uppercase tracking-widest mb-4 block">The Challenge</span>
                 <h2 className="text-3xl md:text-4xl font-bold mb-6">Managing clients shouldn’t feel like managing spreadsheets.</h2>
                 <p className="text-[#A1A1AA] text-lg leading-relaxed mb-6">
-                   Too many tools. Scattered data. Disconnected clients. Modern coaching deserves a system that reduces friction, not adds to it.
+                   The starting assumption is a coaching workflow spread across client records, training plans, nutrition logs, and messages. FitHub explores how those areas could be connected.
                 </p>
              </div>
              
@@ -179,15 +184,15 @@ export const FitHub = () => {
              <div className="grid grid-cols-1 gap-4">
                 <div className="bg-[#111] p-6 rounded-2xl border border-white/5">
                    <div className="flex items-center gap-3 mb-3 text-white font-bold"><LayoutTemplate className="text-emerald-500" size={20}/> Fragmented Workflows</div>
-                   <p className="text-[#A1A1AA] text-sm">Coaches switch between apps and spreadsheets instead of focusing on clients.</p>
+                   <p className="text-[#A1A1AA] text-sm">Scenario assumption: a coach manages client information across apps and spreadsheets.</p>
                 </div>
                 <div className="bg-[#111] p-6 rounded-2xl border border-white/5">
                    <div className="flex items-center gap-3 mb-3 text-white font-bold"><Database className="text-emerald-500" size={20}/> No Unified Tracking</div>
-                   <p className="text-[#A1A1AA] text-sm">Data is scattered. Workouts, meals and notes never live in one place.</p>
+                   <p className="text-[#A1A1AA] text-sm">Design question: how could workouts, meals, and notes share one client context?</p>
                 </div>
                 <div className="bg-[#111] p-6 rounded-2xl border border-white/5">
                    <div className="flex items-center gap-3 mb-3 text-white font-bold"><Activity className="text-emerald-500" size={20}/> Low Engagement</div>
-                   <p className="text-[#A1A1AA] text-sm">Without visibility and feedback, clients lose motivation fast.</p>
+                   <p className="text-[#A1A1AA] text-sm">Design assumption: visible progress and contextual feedback may support a coaching relationship.</p>
                 </div>
              </div>
           </div>
@@ -197,7 +202,7 @@ export const FitHub = () => {
         {/* --- 4. THE SOLUTION --- */}
         <RevealOnScroll>
           <div className="mb-32">
-             <h2 className="text-3xl md:text-4xl font-bold mb-16 text-center">The Solution</h2>
+             <h2 className="text-3xl md:text-4xl font-bold mb-16 text-center">The Concept</h2>
              
              <div className="flex flex-col gap-12">
                 
@@ -211,14 +216,14 @@ export const FitHub = () => {
                          </div>
                          <h4 className="text-2xl font-bold mb-4 text-white">Unified Dashboard</h4>
                          <p className="text-[#A1A1AA] text-lg leading-relaxed">
-                           Coaches operate from a single, structured view. Sessions, payments, and client status are aligned for absolute clarity, reducing admin time significantly.
+                           The desktop concept groups sessions, payment dates, and client status into a customer overview. The intention is to bring related information into one place.
                          </p>
                       </div>
                    </div>
                    {/* Image Side */}
                    <div className="bg-[#151515] relative flex items-center justify-center p-8 order-1 md:order-2 min-h-[300px] md:min-h-[400px]">
 
-                      <img 
+                      <img width={847} height={1024} loading="lazy" decoding="async"
                         src={SolDashboardImg} 
                         alt="Unified Dashboard" 
                         className="w-full h-auto object-contain drop-shadow-2xl rounded-xl group-hover:scale-105 transition-transform duration-500 max-h-[350px]" 
@@ -230,7 +235,7 @@ export const FitHub = () => {
                 {/* CARD 2 */}
                 <div className="bg-[#111] border border-white/5 rounded-3xl overflow-hidden group hover:border-emerald-500/30 transition-all duration-500 grid grid-cols-1 md:grid-cols-2">
                    <div className="bg-[#151515] relative flex items-center justify-center p-8 min-h-[300px] md:min-h-[400px]">
-                      <img 
+                      <img width={512} height={504} loading="lazy" decoding="async"
                         src={SolChatImg} 
                         alt="Human Communication" 
                         className="w-full h-auto object-contain drop-shadow-2xl rounded-xl group-hover:scale-105 transition-transform duration-500 max-h-[350px]" 
@@ -244,7 +249,7 @@ export const FitHub = () => {
                          </div>
                          <h4 className="text-2xl font-bold mb-4 text-white">Human Communication</h4>
                          <p className="text-[#A1A1AA] text-lg leading-relaxed">
-                           Built-in messaging replaces scattered WhatsApp chats and keeps motivation within context. Feedback happens exactly where the progress is tracked.
+                           The concept places coach feedback alongside the client’s workout context and proposes messaging within the same workspace.
                          </p>
                       </div>
                    </div>
@@ -261,13 +266,13 @@ export const FitHub = () => {
                          </div>
                          <h4 className="text-2xl font-bold mb-4 text-white">Visible Progress</h4>
                          <p className="text-[#A1A1AA] text-lg leading-relaxed">
-                           Programs, streaks and weekly goals translate effort into measurable growth. Visualizing consistency helps clients stay engaged longer.
+                           Program progress, streaks, and weekly goals are represented as interface elements. Their effect on motivation or continued use has not been evaluated.
                          </p>
                       </div>
                    </div>
                    {/* Image Side */}
                    <div className="bg-[#151515] relative flex items-center justify-center p-8 order-1 md:order-2 min-h-[300px] md:min-h-[400px]">
-                      <img 
+                      <img width={812} height={1024} loading="lazy" decoding="async"
                         src={SolProgressImg} 
                         alt="Visible Progress" 
                         className="w-full h-auto object-contain drop-shadow-2xl rounded-xl group-hover:scale-105 transition-transform duration-500 max-h-[350px]" 
@@ -284,13 +289,13 @@ export const FitHub = () => {
           <div className="mb-32">
              <div className="flex flex-col items-center text-center mb-20">
                 <span className="px-5 py-2 rounded-full border border-white/10 bg-white/5 text-xs font-mono text-[#A1A1AA] mb-8">
-                   Understanding the Coaching Ecosystem
+                   Conceptual Coaching Ecosystem
                 </span>
                 <h2 className="text-3xl md:text-5xl font-bold mb-8 max-w-4xl leading-tight">
-                   FitHub was designed around the real workflows of modern coaching.
+                   A proposed product structure for connected coaching.
                 </h2>
                 <p className="text-[#A1A1AA] text-lg md:text-xl leading-relaxed max-w-3xl">
-                   Balancing the needs of independent trainers, small gyms and their clients in one connected system.
+                   The concept defines three roles: Gym, Coach, and Client. Each role has a different scope within the proposed system.
                 </p>
              </div>
 
@@ -308,8 +313,8 @@ export const FitHub = () => {
                    <div>
                       <h4 className="text-2xl font-bold text-white mb-4">Independent Coach</h4>
                       <div className="space-y-2 text-[#A1A1AA] text-lg leading-relaxed">
-                         <p>Handles up to 20 clients across multiple tools.</p>
-                         <p>Needs one reliable workspace to manage sessions, payments and client progress.</p>
+                         <p>Concept scenario: manages several clients across multiple tools.</p>
+                         <p>Proposed workspace: sessions, payment dates, and client progress grouped by client.</p>
                       </div>
                    </div>
                 </div>
@@ -323,8 +328,8 @@ export const FitHub = () => {
                    <div>
                       <h4 className="text-2xl font-bold text-white mb-4">Clients</h4>
                       <div className="space-y-2 text-[#A1A1AA] text-lg leading-relaxed">
-                         <p>Seeks visible progress, quick feedback, and accountability.</p>
-                         <p>Loses motivation when updates are delayed or scattered.</p>
+                         <p>Concept scenario: follows a training plan and records progress.</p>
+                         <p>Proposed client view: training, nutrition, and coach feedback in context.</p>
                       </div>
                    </div>
                 </div>
@@ -338,8 +343,8 @@ export const FitHub = () => {
                    <div>
                       <h4 className="text-2xl font-bold text-white mb-4">FitHub System View</h4>
                       <div className="space-y-2 text-[#A1A1AA] text-lg leading-relaxed">
-                         <p>Connects both sides in one shared environment.</p>
-                         <p>Reducing friction, surfaces insights and automating routine work.</p>
+                         <p>Proposes a shared context for coach and client information.</p>
+                         <p>Organizes related information into role-specific views.</p>
                       </div>
                    </div>
                 </div>
@@ -359,7 +364,7 @@ export const FitHub = () => {
                    From fragmented workflows to a unified coaching system.
                 </h2>
                 <p className="text-[#A1A1AA] leading-relaxed max-w-2xl mx-auto">
-                   Turning research insights into structure. Every decision focused on reducing friction, strengthening engagement and scaling effortlessly.
+                   The design work translates conceptual roles and task scenarios into flows, wireframes, and interface layouts.
                 </p>
              </div>
 
@@ -367,17 +372,17 @@ export const FitHub = () => {
                  
                  {/* Text Block & Insight Quote */}
                  <div>
-                    <h3 className="text-2xl font-bold text-white mb-6">Research & Core Insights</h3>
+                    <h3 className="text-2xl font-bold text-white mb-6">Concept Framing & Design Direction</h3>
                     <p className="text-[#A1A1AA] leading-relaxed mb-8">
-                       AI-assisted analysis and coach interviews revealed three recurring pain points: tool overload, fragmented data and weak motivation loops. The goal shifted from control to clarity.
+                       Exploratory scenarios considered tool overload, fragmented client information, and feedback as design assumptions.
                     </p>
 
                     {/* INSIGHT BOX */}
                     <div className="bg-white/5 border-l-4 border-emerald-500 p-8 rounded-r-xl">
-                       <span className="text-emerald-400 font-mono text-sm uppercase tracking-widest mb-3 block">INSIGHT</span>
+                       <span className="text-emerald-400 font-mono text-sm uppercase tracking-widest mb-3 block">DESIGN INTENTION</span>
                        <p className="text-xl md:text-2xl text-white font-medium leading-relaxed">
-                          "Coaches don’t need complexity. <br className="hidden md:block"/>
-                          They need one dependable system that stays out of the way."
+                          Bring client information into a role-specific workspace.<br className="hidden md:block"/>
+                           Keep the next relevant action visible.
                        </p>
                     </div>
                  </div>
@@ -390,11 +395,10 @@ export const FitHub = () => {
                     <div className="relative z-10">
                        <div className="flex items-center gap-3 mb-6">
                           <span className="text-emerald-400 text-2xl">✨</span>
-                          <h4 className="text-xl font-bold text-white">AI in the Research Process</h4>
+                          <h4 className="text-xl font-bold text-white">AI-Assisted Exploratory Research</h4>
                        </div>
                        <p className="text-[#A1A1AA] leading-relaxed max-w-2xl">
-                          <span className="text-white">ChatGPT</span> was used to draft principle prompts and structure research questions. 
-                          Insights were collected from online coach communities, fitness case studies, and behavioral reports accelerating synthesis and reducing noise.
+                          AI supported exploratory research and hypothetical user scenarios to help frame conceptual assumptions. These inputs are not primary research or evidence of user behavior.
                        </p>
                     </div>
                  </div>
@@ -409,7 +413,7 @@ export const FitHub = () => {
           <div className="mb-32">
              {/* Header Title */}
              <h3 className="text-2xl md:text-3xl font-bold mb-12 text-center text-white">
-                From Principles to Design
+                Conceptual Roles & Information Structure
              </h3>
 
              {/* The 3-Card Flow Stack */}
@@ -422,7 +426,7 @@ export const FitHub = () => {
                    </div>
                    <h4 className="text-2xl font-bold text-white mb-4">Gym</h4>
                    <p className="text-[#A1A1AA] text-lg leading-relaxed">
-                      Subscribe to FitHub Packages and manages coach access.
+                      Proposed role: manages a studio subscription and coach access.
                    </p>
                 </div>
 
@@ -436,7 +440,7 @@ export const FitHub = () => {
                    </div>
                    <h4 className="text-2xl font-bold text-white mb-4">Coach</h4>
                    <p className="text-[#A1A1AA] text-lg leading-relaxed">
-                      Organizes clients, tracks progress and provides personalized feedback.
+                      Proposed role: organizes clients, reviews progress, and provides feedback.
                    </p>
                 </div>
 
@@ -450,7 +454,7 @@ export const FitHub = () => {
                    </div>
                    <h4 className="text-2xl font-bold text-white mb-4">Client</h4>
                    <p className="text-[#A1A1AA] text-lg leading-relaxed">
-                      Follows plans, logs progress and stays connected through feedback loops.
+                      Proposed role: follows plans, logs progress, and reads coach feedback.
                    </p>
                 </div>
 
@@ -460,7 +464,7 @@ export const FitHub = () => {
              <div className="text-center py-12 mt-16 border-t border-b border-white/10">
                 <span className="text-emerald-400 font-mono text-sm uppercase tracking-widest mb-4 block">PRINCIPLE</span>
                 <p className="text-xl md:text-2xl text-white font-serif italic max-w-2xl mx-auto leading-relaxed">
-                   "Each role sees only what’s relevant → minimal context-switching, maximum focus."
+                   Design intention: give each role a focused view of its relevant tasks and information.
                 </p>
              </div>
           </div>
@@ -471,14 +475,14 @@ export const FitHub = () => {
         <RevealOnScroll>
           <div className="mb-32">
              <div className="flex items-center gap-4 mb-8">
-                <span className="text-[#525252] font-mono text-xs uppercase tracking-widest">Logic & Architecture</span>
+                <span className="text-[#A1A1AA] font-mono text-xs uppercase tracking-widest">Logic & Architecture</span>
                 <div className="h-px bg-white/10 flex-grow"></div>
              </div>
              
              <div className="max-w-3xl mb-16">
                <h3 className="text-3xl md:text-4xl font-bold mb-6 text-white">System in Motion</h3>
                <p className="text-[#A1A1AA] text-lg leading-relaxed">
-                 Beyond static roles, FitHub’s architecture shows how data, feedback and motivation flow through every interaction.
+                 The flows map proposed coach tasks and client actions, including progress updates, messages, and payment reminders.
                </p>
              </div>
 
@@ -492,11 +496,7 @@ export const FitHub = () => {
                      <h4 className="text-xl font-bold text-white">Coach Flow</h4>
                   </div>
                   <div className="w-full bg-[#111] border border-white/5 p-4 md:p-12 rounded-3xl">
-                     <img 
-                       src={CoachFlowImg} 
-                       alt="Coach User Flow" 
-                       className="w-full h-auto object-contain rounded-lg opacity-90" 
-                     />
+                     <FlowDiagram src={CoachFlowImg} alt="FitHub coach flow" width={1024} height={490} summary="The coach flow starts at a dashboard and branches into client messages, progress updates, and unpaid clients, with proposed actions to send feedback, review charts, or send a payment reminder." />
                   </div>
                </div>
 
@@ -507,11 +507,7 @@ export const FitHub = () => {
                      <h4 className="text-xl font-bold text-white">Client Flow</h4>
                   </div>
                   <div className="w-full bg-[#111] border border-white/5 p-4 md:p-12 rounded-3xl">
-                     <img 
-                       src={ClientFlowImg} 
-                       alt="Client User Flow" 
-                       className="w-full h-auto object-contain rounded-lg opacity-90" 
-                     />
+                     <FlowDiagram src={ClientFlowImg} alt="FitHub client flow" width={1024} height={657} summary="The client flow branches from a dashboard into workout logging, meal logging, and messages. Completion states lead to progress updates, partial progress, reminders, or coach feedback." />
                   </div>
                </div>
 
@@ -533,7 +529,7 @@ export const FitHub = () => {
                      After mapping the ecosystem, I created wireframes to define key layouts and interactions.
                   </p>
                   <p>
-                     Once the core flow was validated, I translated them into Lo-Fi prototypes. Focused purely on movement and logic, not visuals.
+                     The Lo-Fi screens develop the sketched layouts into more explicit groups of information and actions, keeping attention on layout and interaction structure.
                   </p>
                </div>
             </div>
@@ -547,13 +543,13 @@ export const FitHub = () => {
                   <div className="flex flex-col items-center">
                      <span className="text-white font-bold text-sm mb-6">Client Overview</span>
                      <div className="w-full bg-[#111] p-4 rounded-2xl border border-white/5">
-                        <img src={WireCoachOverviewImg} alt="Coach Client Overview" className="w-full h-auto object-contain opacity-90" />
+                        <img width={512} height={277} loading="lazy" decoding="async" src={WireCoachOverviewImg} alt="Coach Client Overview" className="w-full h-auto object-contain opacity-90" />
                      </div>
                   </div>
                   <div className="flex flex-col items-center">
                      <span className="text-white font-bold text-sm mb-6">Client Detail</span>
                      <div className="w-full bg-[#111] p-4 rounded-2xl border border-white/5">
-                        <img src={WireCoachDetailImg} alt="Coach Client Detail" className="w-full h-auto object-contain opacity-90" />
+                        <img width={512} height={351} loading="lazy" decoding="async" src={WireCoachDetailImg} alt="Coach Client Detail" className="w-full h-auto object-contain opacity-90" />
                      </div>
                   </div>
                </div>
@@ -569,13 +565,13 @@ export const FitHub = () => {
                   <div className="flex flex-col items-center">
                      <span className="text-white font-bold text-sm mb-6">Workout Screen</span>
                      <div className="w-full bg-[#111] p-4 rounded-2xl border border-white/5">
-                        <img src={WireClientWorkoutImg} alt="Client Workout Screen" className="w-full h-auto object-contain opacity-90" />
+                        <img width={782} height={1024} loading="lazy" decoding="async" src={WireClientWorkoutImg} alt="Client Workout Screen" className="w-full h-auto object-contain opacity-90" />
                      </div>
                   </div>
                   <div className="flex flex-col items-center">
                      <span className="text-white font-bold text-sm mb-6">Nutrition</span>
                      <div className="w-full bg-[#111] p-4 rounded-2xl border border-white/5">
-                        <img src={WireClientNutritionImg} alt="Client Nutrition Screen" className="w-full h-auto object-contain opacity-90" />
+                        <img width={714} height={1024} loading="lazy" decoding="async" src={WireClientNutritionImg} alt="Client Nutrition Screen" className="w-full h-auto object-contain opacity-90" />
                      </div>
                   </div>
                </div>
@@ -604,13 +600,13 @@ export const FitHub = () => {
                   <div className="flex flex-col items-center">
                      <span className="text-white font-bold text-sm mb-6">Client Overview</span>
                      <div className="w-full bg-[#111] p-4 rounded-2xl border border-white/5">
-                        <img src={LofiCoachOverviewImg} alt="Lo-Fi Coach Overview" className="w-full h-auto object-contain" />
+                        <img width={512} height={364} loading="lazy" decoding="async" src={LofiCoachOverviewImg} alt="Lo-Fi Coach Overview" className="w-full h-auto object-contain" />
                      </div>
                   </div>
                   <div className="flex flex-col items-center">
                      <span className="text-white font-bold text-sm mb-6">Client Detail</span>
                      <div className="w-full bg-[#111] p-4 rounded-2xl border border-white/5">
-                        <img src={LofiCoachDetailImg} alt="Lo-Fi Coach Detail" className="w-full h-auto object-contain" />
+                        <img width={512} height={364} loading="lazy" decoding="async" src={LofiCoachDetailImg} alt="Lo-Fi Coach Detail" className="w-full h-auto object-contain" />
                      </div>
                   </div>
                </div>
@@ -628,7 +624,7 @@ export const FitHub = () => {
                   <div className="flex flex-col items-center">
                      <span className="text-white font-bold text-sm mb-6">Workout Screen</span>
                      <div className="w-full bg-[#111] p-4 rounded-3xl border border-white/5 h-[450px] flex items-center justify-center">
-                        <img 
+                        <img width={804} height={1748} loading="lazy" decoding="async"
                           src={LofiClientWorkoutImg} 
                           alt="Lo-Fi Client Workout" 
                           className="w-full h-full object-contain" 
@@ -640,7 +636,7 @@ export const FitHub = () => {
                   <div className="flex flex-col items-center">
                      <span className="text-white font-bold text-sm mb-6">Nutrition</span>
                      <div className="w-full bg-[#111] p-4 rounded-3xl border border-white/5 h-[450px] flex items-center justify-center">
-                        <img 
+                        <img width={761} height={2048} loading="lazy" decoding="async"
                           src={LofiClientNutritionImg} 
                           alt="Lo-Fi Client Nutrition" 
                           className="w-full h-full object-contain" 
@@ -658,7 +654,7 @@ export const FitHub = () => {
                      PRINCIPLES
                   </span>
                   <p className="text-xl md:text-2xl font-medium leading-relaxed">
-                     Good structure disappears in the final design but it's the reason everything feels effortless.
+                     Design intention: give related information a consistent place within each role’s interface.
                   </p>
                </div>
             </div>
@@ -673,15 +669,15 @@ export const FitHub = () => {
               <h3 className="text-2xl font-bold text-white mb-6">From Complexity to Clarity</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                  <div>
-                    <h4 className="text-[#525252] font-mono text-xs uppercase mb-2">The Problem</h4>
+                    <h4 className="text-[#A1A1AA] font-mono text-xs uppercase mb-2">The Problem</h4>
                     <p className="text-[#A1A1AA] leading-relaxed">
-                       Early wireframe feedback showed a pattern of <span className="text-white font-semibold">visual fatigue</span>. Especially among coaches managing multiple clients, the density of data was overwhelming.
+                       The client overview combines identity, status, dates, and actions. Managing this density is a central design challenge in the concept.
                     </p>
                  </div>
                  <div>
-                    <h4 className="text-emerald-500 font-mono text-xs uppercase mb-2">The Fix</h4>
+                    <h4 className="text-emerald-500 font-mono text-xs uppercase mb-2">Design Direction</h4>
                     <p className="text-[#A1A1AA] leading-relaxed">
-                       By simplifying the layout and refining information hierarchy, interactions became easier to scan. <span className="text-white font-semibold">Good structure disappears</span> in the final design.
+                       The final overview uses repeated client cards and grouped fields. The visible decision is a consistent information structure; whether it is easy to scan would need testing.
                     </p>
                  </div>
               </div>
@@ -700,7 +696,7 @@ export const FitHub = () => {
                 <div className="mb-12 max-w-2xl">
                    <h4 className="text-2xl font-bold text-white mb-2">Coach View</h4>
                    <p className="text-[#A1A1AA] text-sm leading-relaxed">
-                     Client overview simplifies progress tracking at scale → giving coaches clarity across all clients in one glance.
+                     The overview repeats a shared card structure for client status, training dates, payment dates, and detail actions.
                    </p>
                 </div>
                 
@@ -709,7 +705,7 @@ export const FitHub = () => {
                    
                    {/* 1. Static Desktop Image */}
                    <div className="w-full rounded-xl overflow-hidden border border-white/10 shadow-2xl">
-                      <img 
+                      <img width={2880} height={2048} loading="lazy" decoding="async"
                         src={HeroDesktopImg} 
                         alt="Coach UI Desktop Overview" 
                         className="w-full h-auto object-cover" 
@@ -719,11 +715,15 @@ export const FitHub = () => {
                    {/* 2. Interaction Video */}
                    <div className="w-full rounded-xl overflow-hidden border border-white/10 shadow-2xl">
                       <video 
-                        src={FinalCoachVideo} 
-                        autoPlay 
-                        loop 
-                        muted 
-                        playsInline 
+                        src={FinalCoachVideo}
+                        controls
+                        preload="none"
+                        muted
+                        playsInline
+                        poster={HeroDesktopImg}
+                        width={1436}
+                        height={1026}
+                        aria-label="FitHub coach detail prototype recording"
                         className="w-full h-auto object-cover" 
                       />
                    </div>
@@ -748,7 +748,7 @@ export const FitHub = () => {
                    <div className="flex flex-col items-center">
                       <h4 className="text-xl font-bold text-white mb-8">Workout Screen</h4>
                       <div className="relative w-full max-w-[350px]">
-                         <img 
+                         <img width={720} height={1496} loading="lazy" decoding="async"
                            src={FinalClientWorkoutImg} 
                            alt="Final Client Workout UI" 
                            className="w-full h-auto drop-shadow-2xl" 
@@ -761,7 +761,7 @@ export const FitHub = () => {
                    <div className="flex flex-col items-center">
                       <h4 className="text-xl font-bold text-white mb-8">Nutrition</h4>
                       <div className="relative w-full max-w-[350px]">
-                         <img 
+                         <img width={720} height={1496} loading="lazy" decoding="async"
                            src={FinalClientNutritionImg} 
                            alt="Final Client Nutrition UI" 
                            className="w-full h-auto drop-shadow-2xl" 
@@ -783,13 +783,13 @@ export const FitHub = () => {
              
              {/* Learnings */}
              <div>
-                <h3 className="text-3xl font-bold mb-6 text-white">What I Learned</h3>
+                <h3 className="text-3xl font-bold mb-6 text-white">Design Reflection</h3>
                 <div className="space-y-6 text-[#A1A1AA] text-lg leading-relaxed">
                    <p>
-                      The biggest insight was that <span className="text-white font-semibold">efficiency doesn’t come from adding tools</span> but from reducing friction. 
+                      The strongest focus of this work is <span className="text-white font-semibold">information architecture</span>: organizing related coaching tasks across distinct roles.
                    </p>
                    <p>
-                      When the interface gave each role (coach and client) a focused view, confidence increased and actions felt more intentional. This reinforced how <span className="text-white font-semibold">structure and clarity</span> are the real foundation of engagement in SaaS products.
+                      The desktop coach overview and mobile client screens show different priorities within the same product concept. The open question is whether these views support real coaching tasks without hiding important information.
                    </p>
                 </div>
              </div>
@@ -807,7 +807,7 @@ export const FitHub = () => {
                    </li>
                    <li className="flex gap-3">
                       <span className="text-emerald-500 mt-1">→</span>
-                      <span>Real-world validation with small gyms to refine emotional tone.</span>
+                      <span>Plan a first study with coaches and clients to examine the proposed structure and task flows.</span>
                    </li>
                 </ul>
              </div>
@@ -817,13 +817,13 @@ export const FitHub = () => {
 
         {/* --- 13. FOOTER / NEXT --- */}
         <RevealOnScroll>
-          <Link to="/#projects" className="group block border-t border-white/10 pt-24 pb-12">
+          <Link to="/lexi" className="group block border-t border-white/10 pt-24 pb-12">
              <div className="flex justify-between items-center">
                 <div>
-                  <span className="text-[#525252] font-mono text-xs uppercase tracking-widest mb-2 block">Back to Home</span>
-                  <h4 className="text-3xl md:text-5xl font-bold group-hover:text-white transition-colors">See all Projects</h4>
+                  <span className="text-[#A1A1AA] font-mono text-xs uppercase tracking-widest mb-2 block">Next Case Study</span>
+                  <h4 className="text-3xl md:text-5xl font-bold group-hover:text-white transition-colors">Lexi</h4>
                 </div>
-                <ArrowRight size={48} className="text-[#525252] group-hover:text-white group-hover:translate-x-4 transition-all" />
+                <ArrowRight size={48} className="text-[#A1A1AA] group-hover:text-white group-hover:translate-x-4 transition-all" />
              </div>
           </Link>
         </RevealOnScroll>

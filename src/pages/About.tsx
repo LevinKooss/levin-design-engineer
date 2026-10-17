@@ -75,12 +75,14 @@ export const About = () => {
                 </div>
               </div>
               <h1 className="text-3xl md:text-5xl font-bold font-sans text-white mb-6 leading-tight">
-                Design Engineer with a <br/>
-                <span className="text-[#525252]">creative past.</span>
+                From design thinking to <span className="text-[#A1A1AA]">building software.</span>
               </h1>
-              <p className="text-[#A1A1AA] text-lg font-sans leading-relaxed max-w-lg">
-                I shape digital products. Currently based in New Zealand, combining German structure with the adaptability I learned while traveling the world.
-              </p>
+              <div className="text-[#A1A1AA] text-lg font-sans leading-relaxed max-w-lg space-y-5">
+                <p>My background is in UX/UI design, where I learned to approach problems from the user's perspective.</p>
+                <p>Today, I'm studying Computer Science and expanding into software development, automation, and system integration. I work on practical projects that help me turn ideas into functioning solutions, using AI-assisted development tools as part of my workflow.</p>
+                <p>I bring a combination of design experience, technical curiosity, and a hands-on approach to solving problems.</p>
+                <p>Currently based in New Zealand, combining German structure with the adaptability I learned while traveling the world.</p>
+              </div>
             </div>
           </div>
 
