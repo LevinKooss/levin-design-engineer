@@ -84,7 +84,7 @@ export const Footer = () => {
               <div className="flex flex-col gap-4 items-start md:items-end">
                  <FooterLink href="https://github.com/LevinKooss" label="GitHub" />
                  <FooterLink href="https://www.linkedin.com/in/levin-kooss/" label="LinkedIn" />
-                 <ResumeSelector key={pathname} pathname={pathname} />
+                 <ResumeSelector key={pathname} />
               </div>
 
             </div>
