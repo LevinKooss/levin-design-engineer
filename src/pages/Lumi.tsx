@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Navbar } from '../components/Navbar';
+import { ConceptContext } from '../components/design/ConceptContext';
+import { FlowDiagram } from '../components/design/FlowDiagram';
+import { PageTitle } from '../components/design/PageTitle';
 
 import LumiImg from '../assets/LumiImg.avif'; 
 import ManImg from '../assets/man.webp';
@@ -29,6 +31,7 @@ const RevealOnScroll = ({ children, delay = 0 }: { children: React.ReactNode, de
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const node = ref.current;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -39,13 +42,13 @@ const RevealOnScroll = ({ children, delay = 0 }: { children: React.ReactNode, de
       { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
     );
 
-    if (ref.current) {
-      observer.observe(ref.current);
+    if (node) {
+      observer.observe(node);
     }
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
+      if (node) {
+        observer.unobserve(node);
       }
     };
   }, []);
@@ -53,7 +56,7 @@ const RevealOnScroll = ({ children, delay = 0 }: { children: React.ReactNode, de
   return (
     <div
       ref={ref}
-      className={`transition-all duration-1000 ease-out transform ${
+      className={`design-reveal transition-all duration-1000 ease-out transform ${
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
       }`}
       style={{ transitionDelay: `${delay}ms` }}
@@ -72,7 +75,7 @@ const ShimaQuote = ({ text, title = "" }: { text: string, title?: string }) => (
      <div className="relative z-10 flex flex-col md:flex-row gap-6 items-start md:items-center">
 
         <div className="w-20 h-20 rounded-full flex-shrink-0 overflow-hidden border-2 border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.1)] transform group-hover:scale-110 transition-transform duration-500">
-          <img src={LumiImg} alt="Shima Mascot" className="w-full h-full object-cover" />
+          <img width={848} height={816} loading="lazy" decoding="async" src={LumiImg} alt="Shima Mascot" className="w-full h-full object-cover" />
         </div>
         <div>
            {title && <h3 className="text-white font-bold mb-1">{title}</h3>}
@@ -92,15 +95,16 @@ export const Lumi = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white selection:bg-fuchsia-500/30 font-sans overflow-x-hidden">
-      <Navbar />
+    <div className="design-case-study min-h-screen bg-[#050505] text-white selection:bg-fuchsia-500/30 font-sans overflow-x-hidden">
 
-      <main className="pt-32 pb-12 px-4 md:px-8 max-w-[1000px] mx-auto">
+
+      <main className="pt-36 pb-12 px-4 md:px-8 max-w-[1000px] mx-auto">
+        <PageTitle title="Lumi — UX/UI Concept" />
         
         {/* --- 1. HEADER & HERO --- */}
         <RevealOnScroll>
           <div className="mb-24">
-            <Link to="/#projects" className="inline-flex items-center gap-2 text-[#525252] hover:text-white transition-colors mb-8 group">
+            <Link to="/design#projects" className="inline-flex items-center gap-2 text-[#A1A1AA] hover:text-white transition-colors mb-8 group">
               <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
               <span className="font-mono text-sm uppercase tracking-wider">Back to projects</span>
             </Link>
@@ -110,22 +114,23 @@ export const Lumi = () => {
             </h1>
             <p className="text-xl md:text-2xl text-[#A1A1AA] max-w-2xl leading-relaxed mb-8">
               Bringing closeness to distance. <br />
-              A lightweight app for couples and friends to share instant signals.
+              An interaction design concept for couples, friends, and family separated by distance.
             </p>
             
+            <ConceptContext>This case study documents the original UX concept. The separate Lumi web-app development project is outside the scope of this design work.</ConceptContext>
             {/* Tags */}
             <div className="flex flex-wrap gap-3 mb-12">
-              <span className="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-xs font-mono text-[#A1A1AA]">UX Research</span>
+              <span className="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-xs font-mono text-[#A1A1AA]">Concept Project</span>
               <span className="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-xs font-mono text-[#A1A1AA]">Interaction Design</span>
               <span className="px-3 py-1 rounded-full border border-fuchsia-500/30 bg-fuchsia-500/10 text-xs font-mono text-fuchsia-400">Emotional UX</span>
             </div>
 
             {/* HERO IMAGE */}
             <div className="w-full aspect-video bg-[#111] rounded-3xl overflow-hidden border border-white/5 relative group shadow-2xl shadow-fuchsia-900/20">
-               <img 
+               <img width={787} height={543} loading="eager" decoding="async"
                  src={LumiMock} 
                  alt="Lumi App Mockup" 
-                 className="w-full h-full object-cover object-top opacity-90 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700" 
+                 className="w-full h-full object-contain opacity-90 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700"
                />
                <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-30 pointer-events-none"></div>
             </div>
@@ -137,19 +142,19 @@ export const Lumi = () => {
         <RevealOnScroll delay={200}>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 border-y border-white/10 py-8 mb-24 font-mono text-xs md:text-sm">
              <div>
-               <div className="text-[#525252] mb-2 uppercase tracking-wider flex items-center gap-2"><User size={14}/> Role</div>
-               <span className="text-white">UX Designer & Researcher</span>
+               <div className="text-[#A1A1AA] mb-2 uppercase tracking-wider flex items-center gap-2"><User size={14}/> Role</div>
+               <span className="text-white">UX/UI Designer</span>
              </div>
              <div>
-               <div className="text-[#525252] mb-2 uppercase tracking-wider flex items-center gap-2"><Clock size={14}/> Duration</div>
+               <div className="text-[#A1A1AA] mb-2 uppercase tracking-wider flex items-center gap-2"><Clock size={14}/> Duration</div>
                <span className="text-white">4 Weeks</span>
              </div>
              <div>
-               <div className="text-[#525252] mb-2 uppercase tracking-wider flex items-center gap-2"><Zap size={14}/> Tools</div>
-               <span className="text-white">Figma, AI</span>
+               <div className="text-[#A1A1AA] mb-2 uppercase tracking-wider flex items-center gap-2"><Zap size={14}/> Design Tool</div>
+               <span className="text-white">Figma</span>
              </div>
              <div>
-               <div className="text-[#525252] mb-2 uppercase tracking-wider flex items-center gap-2"><Sparkles size={14}/> Focus</div>
+               <div className="text-[#A1A1AA] mb-2 uppercase tracking-wider flex items-center gap-2"><Sparkles size={14}/> Focus</div>
                <span className="text-white">Emotional UX</span>
              </div>
           </div>
@@ -160,7 +165,7 @@ export const Lumi = () => {
         <RevealOnScroll>
           <ShimaQuote 
             title="Hi, I'm Shima." 
-            text="I’m the little mascot of Lumi. I’ll guide you through how this app was born. Starting with the problem we solved." 
+            text="I’m the little mascot of Lumi. I’ll guide you through how this app was born. Starting with the idea behind the concept."
           />
         </RevealOnScroll>
 
@@ -172,10 +177,10 @@ export const Lumi = () => {
                 <span className="text-fuchsia-500 font-mono text-xs uppercase tracking-widest mb-4 block">The Problem</span>
                 <h2 className="text-3xl md:text-4xl font-bold mb-6">Staying close feels heavy.</h2>
                 <p className="text-[#A1A1AA] text-lg leading-relaxed mb-6">
-                   Through conversations with couples and friends in long-distance situations, I identified that staying emotionally close across distance is difficult.
+                   The concept explores a scenario in which couples, friends, or family want to acknowledge each other without starting a longer conversation.
                 </p>
                 <p className="text-[#A1A1AA] text-lg leading-relaxed">
-                   Messages and calls take time and effort, so small moments of connection often get lost.
+                   The design question: what could a lightweight, non-verbal interaction look like alongside messages and calls?
                 </p>
              </div>
              
@@ -183,15 +188,15 @@ export const Lumi = () => {
              <div className="grid grid-cols-1 gap-4">
                 <div className="bg-[#111] p-6 rounded-2xl border border-white/5">
                    <div className="flex items-center gap-3 mb-3 text-white font-bold"><Clock className="text-fuchsia-500" size={20}/> Lack of Immediacy</div>
-                   <p className="text-[#A1A1AA] text-sm">Messaged or calls take time, so spontaneous moments are lost.</p>
+                   <p className="text-[#A1A1AA] text-sm">Design assumption: a brief signal could offer an alternative when there is little time for a conversation.</p>
                 </div>
                 <div className="bg-[#111] p-6 rounded-2xl border border-white/5">
                    <div className="flex items-center gap-3 mb-3 text-white font-bold"><Heart className="text-fuchsia-500" size={20}/> Emotional Gap</div>
-                   <p className="text-[#A1A1AA] text-sm">Irregular communication leads to feeling less present in each other's lives.</p>
+                   <p className="text-[#A1A1AA] text-sm">Concept scenario: people separated by distance want small ways to acknowledge each other.</p>
                 </div>
                 <div className="bg-[#111] p-6 rounded-2xl border border-white/5">
                    <div className="flex items-center gap-3 mb-3 text-white font-bold"><MessageCircle className="text-fuchsia-500" size={20}/> Overloaded Channels</div>
-                   <p className="text-[#A1A1AA] text-sm">Chats carry expectations, making it hard to share light, playful interactions.</p>
+                   <p className="text-[#A1A1AA] text-sm">Design assumption: a dedicated interaction could feel less demanding than starting a chat.</p>
                 </div>
              </div>
           </div>
@@ -201,7 +206,7 @@ export const Lumi = () => {
         {/* --- SHIMA 2: SOLUTION INTRO --- */}
         <RevealOnScroll>
           <ShimaQuote 
-            text="We needed something lighter. Less text, more feeling. That's where I come in!" 
+            text="The concept explores less text and a more playful visual expression. That's where I come in!"
           />
         </RevealOnScroll>
 
@@ -209,14 +214,14 @@ export const Lumi = () => {
         {/* --- 4. THE SOLUTION --- */}
         <RevealOnScroll>
           <div className="mb-32">
-             <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">The Solution</h2>
+             <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">The Concept</h2>
              
              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 
                 {/* CARD 1: SIGNALS */}
                 <div className="bg-[#111] border border-white/5 rounded-3xl overflow-hidden group hover:border-fuchsia-500/30 transition-all duration-500 flex flex-col">
                    <div className="h-72 bg-[#151515] overflow-hidden relative flex items-center justify-center p-6">
-                      <img 
+                      <img width={512} height={512} loading="lazy" decoding="async"
                         src={LumiSend} 
                         alt="Playful Signals" 
                         className="w-full h-full object-contain drop-shadow-2xl rounded-xl group-hover:scale-105 transition-transform duration-500" 
@@ -226,7 +231,7 @@ export const Lumi = () => {
                    <div className="p-8 mt-auto">
                       <h4 className="text-xl font-bold mb-3 text-white">Playful Signals</h4>
                       <p className="text-[#A1A1AA] text-sm leading-relaxed">
-                        Send a Lumi with one tap to instantly show presence and care. No text needed.
+                        A prominent send action is designed for a brief gesture without composing a message.
                       </p>
                    </div>
                 </div>
@@ -234,7 +239,7 @@ export const Lumi = () => {
                 {/* CARD 2: MOODS */}
                 <div className="bg-[#111] border border-white/5 rounded-3xl overflow-hidden group hover:border-fuchsia-500/30 transition-all duration-500 flex flex-col">
                    <div className="h-72 bg-[#151515] overflow-hidden relative flex items-center justify-center p-6">
-                      <img 
+                      <img width={512} height={512} loading="lazy" decoding="async"
                         src={LumiMoodSmall} 
                         alt="Mood Check-in" 
                         className="w-full h-full object-contain drop-shadow-2xl rounded-xl group-hover:scale-105 transition-transform duration-500" 
@@ -243,7 +248,7 @@ export const Lumi = () => {
                    <div className="p-8 mt-auto">
                       <h4 className="text-xl font-bold mb-3 text-white">Mood Check-ins</h4>
                       <p className="text-[#A1A1AA] text-sm leading-relaxed">
-                        Share how you feel with a visual reaction from Shima, creating empathy at a glance.
+                        The mood concept pairs a selected emotion with an expressive reaction from Shima.
                       </p>
                    </div>
                 </div>
@@ -251,7 +256,7 @@ export const Lumi = () => {
                 {/* CARD 3: MOMENTS */}
                 <div className="bg-[#111] border border-white/5 rounded-3xl overflow-hidden group hover:border-fuchsia-500/30 transition-all duration-500 flex flex-col">
                    <div className="h-72 bg-[#151515] overflow-hidden relative flex items-center justify-center p-6">
-                      <img 
+                      <img width={512} height={512} loading="lazy" decoding="async"
                         src={LumiWishSmall} 
                         alt="Shared Moments" 
                         className="w-full h-full object-contain drop-shadow-2xl rounded-xl group-hover:scale-105 transition-transform duration-500" 
@@ -260,7 +265,7 @@ export const Lumi = () => {
                    <div className="p-8 mt-auto">
                       <h4 className="text-xl font-bold mb-3 text-white">Shared Moments</h4>
                       <p className="text-[#A1A1AA] text-sm leading-relaxed">
-                        Keep a simple counter of highlights, making small interactions feel meaningful.
+                        The wish view groups activity ideas and dates in a shared planning concept.
                       </p>
                    </div>
                 </div>
@@ -274,7 +279,7 @@ export const Lumi = () => {
           <div className="mb-32">
              <div className="flex items-center gap-4 mb-8">
                 <div className="h-px bg-white/10 flex-grow"></div>
-                <span className="text-[#525252] font-mono text-xs uppercase tracking-widest">Who we design for</span>
+                <span className="text-[#A1A1AA] font-mono text-xs uppercase tracking-widest">Conceptual personas</span>
                 <div className="h-px bg-white/10 flex-grow"></div>
              </div>
 
@@ -284,14 +289,14 @@ export const Lumi = () => {
                 <div className="bg-[#111] border border-white/5 p-8 rounded-3xl">
                    <div className="flex items-center gap-4 mb-6">
                       <div className="w-16 h-16 flex items-center justify-center rounded-full overflow-hidden bg-white/5 border border-white/10 shrink-0">
-                        <img src={ManImg} alt="Levin" className="w-full h-full object-cover" />
+                        <img width={512} height={512} loading="lazy" decoding="async" src={ManImg} alt="Levin" className="w-full h-full object-cover" />
                       </div>
                       <div>
                          <h4 className="text-white font-bold">Levin, 31</h4>
-                         <span className="text-[#525252] text-xs uppercase">Partner in LDR</span>
+                         <span className="text-[#A1A1AA] text-xs uppercase">Conceptual partner persona</span>
                       </div>
                    </div>
-                   <blockquote className="text-[#A1A1AA] italic mb-6">"Even a tiny signal helps me feel close when I’m busy."</blockquote>
+                   <p className="text-[#A1A1AA] mb-6">Scenario: sending a brief gesture during a busy day.</p>
                    <ul className="space-y-3 text-sm text-[#A1A1AA]">
                       <li className="flex items-start gap-3">
                         <span className="text-fuchsia-500 shrink-0 mt-[2px]">•</span> 
@@ -303,7 +308,7 @@ export const Lumi = () => {
                       </li>
                       <li className="flex items-start gap-3">
                         <span className="text-fuchsia-500 shrink-0 mt-[2px]">•</span> 
-                        <span>Values <span className="text-white font-semibold">rituals</span> that strengthen bonds</span>
+                        <span>Values <span className="text-white font-semibold">rituals</span> for keeping in touch</span>
                       </li>
                    </ul>
                 </div>
@@ -312,14 +317,14 @@ export const Lumi = () => {
                 <div className="bg-[#111] border border-white/5 p-8 rounded-3xl">
                    <div className="flex items-center gap-4 mb-6">
                       <div className="w-16 h-16 flex items-center justify-center rounded-full overflow-hidden bg-white/5 border border-white/10 shrink-0">
-                        <img src={WomanImg} alt="Maria" className="w-full h-full object-cover" />
+                        <img width={512} height={512} loading="lazy" decoding="async" src={WomanImg} alt="Maria" className="w-full h-full object-cover" />
                       </div>
                       <div>
                          <h4 className="text-white font-bold">Maria, 52</h4>
-                         <span className="text-[#525252] text-xs uppercase">Mother</span>
+                         <span className="text-[#A1A1AA] text-xs uppercase">Conceptual parent persona</span>
                       </div>
                    </div>
-                   <blockquote className="text-[#A1A1AA] italic mb-6">"I just want to feel included in my daughter’s life without long calls."</blockquote>
+                   <p className="text-[#A1A1AA] mb-6">Scenario: sharing small updates with an adult child living elsewhere.</p>
                    <ul className="space-y-3 text-sm text-[#A1A1AA]">
                       <li className="flex items-start gap-3">
                         <span className="text-fuchsia-500 shrink-0 mt-[2px]">•</span> 
@@ -346,26 +351,26 @@ export const Lumi = () => {
           <div className="bg-[#111] border border-white/5 rounded-3xl p-8 md:p-12 mb-32 relative overflow-hidden">
              <div className="flex items-center gap-4 mb-8">
                 <div className="w-14 h-14 rounded-full overflow-hidden border border-white/10 flex-shrink-0">
-                  <img src={LumiImg} alt="Shima" className="w-full h-full object-cover" />
+                  <img width={848} height={816} loading="lazy" decoding="async" src={LumiImg} alt="Shima" className="w-full h-full object-cover" />
                 </div>
                 <h3 className="text-xl font-bold text-white">Hi, I am back.</h3>
              </div>
              <p className="text-[#A1A1AA] mb-8 max-w-2xl">
-                Based on what we learned from users, let’s pin down the core principles that keep Lumi simple, playful, and focused on emotions.
+                These design principles express the direction of the concept: simple interactions, playful visuals, and a small set of core flows.
              </p>
              
              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
                 <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-                   <span className="text-fuchsia-500 font-mono text-xs block mb-2">INSIGHT #1</span>
-                   <h5 className="text-white font-bold mb-2">Lightweight signals keep bonds alive.</h5>
+                   <span className="text-fuchsia-500 font-mono text-xs block mb-2">DESIGN AIM #1</span>
+                   <h5 className="text-white font-bold mb-2">Make a small gesture easy to express.</h5>
                 </div>
                 <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-                   <span className="text-fuchsia-500 font-mono text-xs block mb-2">INSIGHT #2</span>
-                   <h5 className="text-white font-bold mb-2">Playfulness creates empathy.</h5>
+                   <span className="text-fuchsia-500 font-mono text-xs block mb-2">DESIGN AIM #2</span>
+                   <h5 className="text-white font-bold mb-2">Use playfulness as a visual language.</h5>
                 </div>
                 <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-                   <span className="text-fuchsia-500 font-mono text-xs block mb-2">INSIGHT #3</span>
-                   <h5 className="text-white font-bold mb-2">Boundaries protect simplicity.</h5>
+                   <span className="text-fuchsia-500 font-mono text-xs block mb-2">DESIGN AIM #3</span>
+                   <h5 className="text-white font-bold mb-2">Keep the core interactions focused.</h5>
                 </div>
              </div>
           </div>
@@ -375,13 +380,13 @@ export const Lumi = () => {
         <RevealOnScroll>
           <div className="mb-32">
              <div className="flex items-center gap-4 mb-8">
-                <span className="text-[#525252] font-mono text-xs uppercase tracking-widest">Logic & Architecture</span>
+                <span className="text-[#A1A1AA] font-mono text-xs uppercase tracking-widest">Logic & Architecture</span>
                 <div className="h-px bg-white/10 flex-grow"></div>
              </div>
 
              <div className="flex flex-col gap-12">
                 <div className="max-w-3xl">
-                   <h3 className="text-3xl font-bold mb-6 text-white">How users interact with Lumi</h3>
+                   <h3 className="text-3xl font-bold mb-6 text-white">Proposed interaction flows</h3>
                    <p className="text-[#A1A1AA] text-lg leading-relaxed mb-4">
                       To address the challenge of overloaded communication, I mapped out the key flows to be as linear as possible.
                    </p>
@@ -393,11 +398,7 @@ export const Lumi = () => {
                 
                 {/* Flow Image Container */}
                 <div className="w-full bg-[#111] border border-white/5 p-4 md:p-8 rounded-3xl group hover:border-fuchsia-500/30 transition-colors">
-                   <img 
-                     src={LumiUserFlow} 
-                     alt="Lumi User Flow Architecture" 
-                     className="w-full h-auto object-contain rounded-xl opacity-90 group-hover:opacity-100 transition-opacity" 
-                   />
+                   <FlowDiagram src={LumiUserFlow} alt="Lumi interaction flows" width={1024} height={632} summary="Sending: welcome, pairing, sending, receiving, and sending back. Mood: select a mood, read a partner’s mood, then send a signal. Wishes: choose a date and activity, then view saved plans. Settings form a separate branch." />
                 </div>
              </div>
           </div>
@@ -427,8 +428,8 @@ export const Lumi = () => {
                
                {/* CONTAINER 1: Onboarding & Pairing + Send Lumi */}
                <div className="bg-[#151515] p-8 rounded-3xl border border-white/5 flex flex-col items-center gap-8">
-                  <img src={LumiLoFiOnBoard} alt="Wireframe Onboarding" className="h-[400px] w-auto object-contain opacity-80" />
-                  <img src={LumiLoFiSend} alt="Wireframe Sending" className="h-[400px] w-auto object-contain opacity-80" />
+                  <img width={804} height={1748} loading="lazy" decoding="async" src={LumiLoFiOnBoard} alt="Wireframe Onboarding" className="h-[400px] w-auto object-contain opacity-80" />
+                  <img width={804} height={1748} loading="lazy" decoding="async" src={LumiLoFiSend} alt="Wireframe Sending" className="h-[400px] w-auto object-contain opacity-80" />
                   
                   <span className="text-[#A1A1AA] font-mono text-xs mt-4 uppercase tracking-wider">
                     Onboarding & Sending Cycle
@@ -437,8 +438,8 @@ export const Lumi = () => {
 
                {/* CONTAINER 2: Mood Check + Make a Wish */}
                <div className="bg-[#151515] p-8 rounded-3xl border border-white/5 flex flex-col items-center gap-8">
-                  <img src={LumiLoFiMood} alt="Wireframe Mood" className="h-[400px] w-auto object-contain opacity-80" />
-                  <img src={LumiLoFiWish} alt="Wireframe Wish" className="h-[400px] w-auto object-contain opacity-80" />
+                  <img width={804} height={1748} loading="lazy" decoding="async" src={LumiLoFiMood} alt="Wireframe Mood" className="h-[400px] w-auto object-contain opacity-80" />
+                  <img width={804} height={1748} loading="lazy" decoding="async" src={LumiLoFiWish} alt="Wireframe Wish" className="h-[400px] w-auto object-contain opacity-80" />
                   
                   <span className="text-[#A1A1AA] font-mono text-xs mt-4 uppercase tracking-wider">
                     Mood Check & Make a Wish
@@ -462,7 +463,7 @@ export const Lumi = () => {
              <span className="text-fuchsia-500 font-mono text-xs uppercase tracking-widest mb-4 block text-center">Refined Design</span>
              <h2 className="text-4xl md:text-5xl font-bold mb-6 text-center">Where Lumi Shines</h2>
              <p className="text-[#A1A1AA] text-center max-w-2xl mx-auto mb-16">
-               Each screen was polished for clarity, accessibility, and emotional impact.
+               The final mockups develop the visual identity through warm backgrounds, rounded controls, and Shima’s expressive character.
              </p>
 
              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -471,20 +472,20 @@ export const Lumi = () => {
                 <div className="bg-[#111] rounded-3xl p-8 border border-white/5">
                    <div className="mb-6">
                       <h4 className="text-xl font-bold text-white">Home Screen</h4>
-                      <p className="text-[#A1A1AA] text-sm">Lumi’s emotional hub. One tap to send a signal.</p>
+                      <p className="text-[#A1A1AA] text-sm">A central send action anchors the home concept.</p>
                    </div>
-                   <img src={LumiPhone} alt="Home Screen" className="w-full h-auto rounded-lg shadow-2xl" />
+                   <img width={341} height={549} loading="lazy" decoding="async" src={LumiPhone} alt="Home Screen" className="w-full h-auto rounded-lg shadow-2xl" />
                 </div>
                 
                 {/* 2. Mood Screen */}
                 <div className="bg-[#111] rounded-3xl p-8 border border-white/5 md:translate-y-12">
                    <div className="mb-6">
                       <h4 className="text-xl font-bold text-white">Mood Screen</h4>
-                      <p className="text-[#A1A1AA] text-sm">Shima’s playful reactions add warmth.</p>
+                      <p className="text-[#A1A1AA] text-sm">Expressive character imagery illustrates the mood concept.</p>
                    </div>
                    
                    <div className="flex justify-center">
-                     <img 
+                     <img width={348} height={810} loading="lazy" decoding="async"
                        src={LumiMood} 
                        alt="Mood Screen" 
                        className="w-[70%] h-auto rounded-lg shadow-2xl object-contain" 
@@ -498,16 +499,16 @@ export const Lumi = () => {
                       <h4 className="text-xl font-bold text-white">Wish List</h4>
                       <p className="text-[#A1A1AA] text-sm">Light planning tool for shared activities.</p>
                    </div>
-                   <img src={LumiWish} alt="Wish List Screen" className="w-full h-auto rounded-lg shadow-2xl" />
+                   <img width={341} height={549} loading="lazy" decoding="async" src={LumiWish} alt="Wish List Screen" className="w-full h-auto rounded-lg shadow-2xl" />
                 </div> 
 
                 {/* 4. Pairing */}
                 <div className="bg-[#111] rounded-3xl p-8 border border-white/5 md:translate-y-12">
                    <div className="mb-6">
                       <h4 className="text-xl font-bold text-white">Pairing</h4>
-                      <p className="text-[#A1A1AA] text-sm">A short code connects two users within seconds.</p>
+                      <p className="text-[#A1A1AA] text-sm">The pairing concept uses a code-entry screen to connect two people.</p>
                    </div>
-                   <img src={LumiPair} alt="Pairing Screen" className="w-full h-auto rounded-lg shadow-2xl" />
+                   <img width={341} height={549} loading="lazy" decoding="async" src={LumiPair} alt="Pairing Screen" className="w-full h-auto rounded-lg shadow-2xl" />
                 </div>
 
              </div>
@@ -522,18 +523,18 @@ export const Lumi = () => {
             {/* GRID: Learnings & Next Steps */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-16">
                
-               {/* COLUMN 1: What I Learned */}
+               {/* COLUMN 1: Design Reflection */}
                <div>
-                  <h3 className="text-3xl font-bold mb-6 text-white">What I Learned</h3>
+                  <h3 className="text-3xl font-bold mb-6 text-white">Design Reflection</h3>
                   <div className="space-y-6 text-[#A1A1AA] text-lg leading-relaxed">
                      <p>
-                        Designing Lumi showed me how emotions translate into interactions design. Quick feedback sessions revealed that users felt more connected through Shima’s playful reactions than through long chat-like exchanges.
+                        Lumi explores emotional design through a prominent send action, expressive character imagery, and three core areas: sending, mood, and wishes.
                      </p>
                      <p>
-                        The insight was clear: <span className="text-white font-semibold">Simplicity is not about cutting features</span>, but about removing friction so gestures feel effortless.
+                        The interaction model centers on <span className="text-white font-semibold">three core loops</span>, with a prominent action for sending a signal.
                      </p>
                      <p>
-                        I also learned that <span className="text-white font-semibold">accessibility isn’t optional</span> - people of different ages and tech levels need clarity and intuitive flows to feel included.
+                        An open question is whether people of different ages would understand the icon-based navigation and mood interactions. This would need to be explored with real users.
                      </p>
                   </div>
                </div>
@@ -551,11 +552,11 @@ export const Lumi = () => {
                      </li>
                      <li className="flex gap-3">
                         <span className="text-fuchsia-500 mt-1">→</span>
-                        <span>Extend accessibility with full screen reader support.</span>
+                        <span>Define accessible labels and screen reader behavior for a future implementation.</span>
                      </li>
                      <li className="flex gap-3">
                         <span className="text-fuchsia-500 mt-1">→</span>
-                        <span>Cross-platform testing on iOS & Android, followed by structured usability sessions.</span>
+                        <span>Plan real usability sessions around pairing, sending, and interpreting moods before assessing the concept’s emotional value.</span>
                      </li>
                   </ul>
                </div>
@@ -567,15 +568,13 @@ export const Lumi = () => {
 
                 <div className="relative z-10 flex flex-col md:flex-row items-start gap-8">
                    <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-white/10 shrink-0 shadow-lg">
-                      <img src={LumiImg} alt="Shima Mascot" className="w-full h-full object-cover" />
+                      <img width={848} height={816} loading="lazy" decoding="async" src={LumiImg} alt="Shima Mascot" className="w-full h-full object-cover" />
                    </div>
 
                    <div>
                      <h3 className="text-xl font-bold text-white mb-4">Closing Thoughts</h3>
                      <p className="text-[#A1A1AA] italic leading-relaxed text-lg">
-                        "Lumi became more than a prototype - it turned into a daily ritual of closeness. 
-                        Testing confirmed that even minimal gestures, when designed with empathy, can make distance feel smaller. 
-                        For me, this project was both a UX lesson in clarity and a personal reflection on staying connected to loved ones."
+                        The result is an original UX/UI concept expressed through flows, wireframes, and mockups. Whether these interactions would become useful habits or support a sense of closeness remains an open question.
                      </p>
                    </div>
                 </div>
@@ -587,13 +586,13 @@ export const Lumi = () => {
 
         {/* --- 9. NEXT PROJECT (LEXI) --- */}
         <RevealOnScroll>
-          <Link to="/lexi" className="group block border-t border-white/10 pt-24 pb-24">
+          <Link to="/design#projects" className="group block border-t border-white/10 pt-24 pb-24">
              <div className="flex justify-between items-center">
                 <div>
-                  <span className="text-[#525252] font-mono text-xs uppercase tracking-widest mb-2 block">Next Case Study</span>
-                  <h4 className="text-3xl md:text-5xl font-bold group-hover:text-blue-500 transition-colors">Lexi</h4>
+                  <span className="text-[#A1A1AA] font-mono text-xs uppercase tracking-widest mb-2 block">Back to Design Work</span>
+                  <h4 className="text-3xl md:text-5xl font-bold group-hover:text-blue-500 transition-colors">See all Design Projects</h4>
                 </div>
-                <ArrowRight size={48} className="text-[#525252] group-hover:text-blue-500 group-hover:translate-x-4 transition-all" />
+                <ArrowRight size={48} className="text-[#A1A1AA] group-hover:text-blue-500 group-hover:translate-x-4 transition-all" />
              </div>
           </Link>
         </RevealOnScroll>

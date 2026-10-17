@@ -6,16 +6,21 @@ import TailwindIconO from '../assets/icons/tailwind-o.svg';
 import FigmaIconO from '../assets/icons/figma-o.svg';
 import GitHubIconO from '../assets/icons/github-o.svg';
 import VercelIconO from '../assets/icons/vercel-o.svg';
+// Brand SVGs from https://github.com/simple-icons/simple-icons/tree/develop/icons
+import N8nIcon from '../assets/icons/n8n.svg';
+import DockerIcon from '../assets/icons/docker.svg';
 
 const baseIcons = [
   { name: 'React', src: ReactIconO, dark: false },
   { name: 'TypeScript', src: TSIconO, dark: false },
-  { name: 'Tailwind', src: TailwindIconO, dark: false },
+  { name: 'Tailwind CSS', src: TailwindIconO, dark: false },
   { name: 'Vite', src: ViteIconO, dark: false },
   { name: 'OpenAI', src: OpenAIIconO, dark: true },
   { name: 'Figma', src: FigmaIconO, dark: false },
   { name: 'GitHub', src: GitHubIconO, dark: true },
   { name: 'Vercel', src: VercelIconO, dark: true },
+  { name: 'n8n', src: N8nIcon, dark: true },
+  { name: 'Docker', src: DockerIcon, dark: true },
 ];
 
 const iconsDoubled = [...baseIcons, ...baseIcons];
@@ -30,7 +35,7 @@ export const TechStack = () => {
       </div>
 
       <p className="text-[#A1A1AA]/60 text-xs font-mono tracking-[0.2em] mb-8 uppercase">
-        Technologies
+        Tools &amp; Technologies
       </p>
 
       {/* Slider Container */}

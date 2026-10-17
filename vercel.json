@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    { "source": "/about", "destination": "/index.html" },
+    { "source": "/design", "destination": "/index.html" },
+    { "source": "/job-finder", "destination": "/index.html" },
+    { "source": "/fithub", "destination": "/index.html" },
+    { "source": "/lexi", "destination": "/index.html" },
+    { "source": "/lumi", "destination": "/index.html" },
+    { "source": "/legal-notice", "destination": "/index.html" },
+    { "source": "/privacy-policy", "destination": "/index.html" }
+  ]
+}

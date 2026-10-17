@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
@@ -6,23 +7,34 @@ import { About } from './pages/About';
 import { Lumi } from './pages/Lumi';   
 import { Lexi } from './pages/Lexi';
 import { FitHub } from './pages/FitHub';
+import { JobFinder } from './pages/JobFinder';
+import { Design } from './pages/Design';
 import { ScrollToTop } from './components/ScrollToTop' 
+
+const LegalNotice = lazy(() => import('./pages/LegalNotice'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 
 function App() {
   return (
     <Router>
       <ScrollToTop />
-      <div className="min-h-screen bg-[#050505] text-white selection:bg-white/20 overflow-x-hidden">
+      <div className="portfolio-shell min-h-screen bg-[#050505] text-white selection:bg-white/20 overflow-x-hidden pb-28 lg:pb-0">
 
         <Navbar />
         
+        <Suspense fallback={<main className="mx-auto max-w-[900px] px-4 pt-36 text-sub" role="status">Loading…</main>}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/design" element={<Design />} />
           <Route path="/lumi" element={<Lumi />} />
           <Route path='/lexi' element={<Lexi />} />
           <Route path='/fithub' element={<FitHub />} />
+          <Route path="/job-finder" element={<JobFinder />} />
+          <Route path="/legal-notice" element={<LegalNotice />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         </Routes>
+        </Suspense>
         
         <Footer />
 

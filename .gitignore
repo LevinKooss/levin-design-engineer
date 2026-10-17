@@ -12,6 +12,18 @@ dist
 dist-ssr
 *.local
 
+# Local credentials and deployment metadata
+.env
+.env.*
+!.env.example
+.vercel/
+
+# Resume working files and release verification artifacts
+resume-redesign/
+resume-deliverables/
+dist.pre-release-*/
+.release-checks/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
