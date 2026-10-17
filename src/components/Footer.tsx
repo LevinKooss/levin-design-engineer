@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { ResumeSelector } from './ResumeSelector';
 
 // Reveal Component
@@ -94,8 +94,8 @@ export const Footer = () => {
           <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-mono text-[#525252]">
             <span>© 2026 Levin Kooss</span>
             <div className="flex gap-4">
-               <span>Legal Notice</span>
-               <span>Privacy</span>
+               <Link to="/legal-notice" aria-label="Legal Notice / Impressum" className="rounded-sm transition-colors hover:text-sub focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400">Legal Notice</Link>
+               <Link to="/privacy-policy" aria-label="Privacy / Datenschutzerklärung" className="rounded-sm transition-colors hover:text-sub focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400">Privacy</Link>
             </div>
             <span className="text-right">Built with React, Vite</span>
           </div>

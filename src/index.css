@@ -1,8 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+/* Inter by the Inter Project Authors; SIL OFL in public/fonts/Inter-LICENSE.txt. */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/InterVariable.woff2') format('woff2');
+}
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.legal-copy a {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+
+.legal-copy a:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 4px;
+}
 
 /* Smooth scrolling is requested by project CTAs, never by route restoration. */
 html {

@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
@@ -10,6 +11,9 @@ import { JobFinder } from './pages/JobFinder';
 import { Design } from './pages/Design';
 import { ScrollToTop } from './components/ScrollToTop' 
 
+const LegalNotice = lazy(() => import('./pages/LegalNotice'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+
 function App() {
   return (
     <Router>
@@ -18,6 +22,7 @@ function App() {
 
         <Navbar />
         
+        <Suspense fallback={<main className="mx-auto max-w-[900px] px-4 pt-36 text-sub" role="status">Loading…</main>}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -26,7 +31,10 @@ function App() {
           <Route path='/lexi' element={<Lexi />} />
           <Route path='/fithub' element={<FitHub />} />
           <Route path="/job-finder" element={<JobFinder />} />
+          <Route path="/legal-notice" element={<LegalNotice />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         </Routes>
+        </Suspense>
         
         <Footer />
 
